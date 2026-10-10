@@ -1,0 +1,118 @@
+{
+    "name": "localcode-atlas",
+    "displayName": "LocalCode Atlas ? Private, offline code search for VS Code",
+    "description": "Private, offline code search for VS Code using SQLite, NumPy, and Ollama. Maintained by Karan Singh.",
+    "version": "0.2.0",
+    "private": true,
+    "publisher": "karansingh1939",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/karansingh-1939/localcode-atlas.git"
+    },
+    "engines": {
+        "vscode": "^1.86.0"
+    },
+    "categories": [
+        "Other",
+        "Programming Languages"
+    ],
+    "keywords": [
+        "semantic search",
+        "code search",
+        "offline",
+        "AI",
+        "vector database"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension/src/extension.js",
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": false,
+            "description": "LocalCode Atlas starts a local Python backend and reads workspace files."
+        }
+    },
+    "contributes": {
+        "configuration": {
+            "title": "LocalCode Atlas",
+            "properties": {
+                "codelens.excludePatterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "scope": "resource",
+                    "description": "Git-style patterns excluded from indexing, in addition to .gitignore and .codelensignore. Re-index after changing this setting."
+                }
+            }
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "codelens-sidebar",
+                    "title": "LocalCode Atlas Search",
+                    "icon": "media/codelens-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "codelens-sidebar": [
+                {
+                    "type": "webview",
+                    "id": "codelens.sidebar",
+                    "name": "Semantic Search"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "codelens.search",
+                "title": "LocalCode Atlas: Semantic Search",
+                "icon": "$(search)"
+            },
+            {
+                "command": "codelens.reindex",
+                "title": "LocalCode Atlas: Re-index Workspace",
+                "icon": "$(sync)"
+            },
+            {
+                "command": "codelens.showStatus",
+                "title": "LocalCode Atlas: Show Status"
+            }
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "codelens.reindex",
+                    "group": "navigation"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "build": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "compile": "tsc -p ./",
+        "vscode:prepublish": "npm run compile",
+        "start": "powershell -NoProfile -ExecutionPolicy Bypass -File ./start.ps1",
+        "setup": "powershell -NoProfile -ExecutionPolicy Bypass -File ./setup.ps1",
+        "test:extension": "npm run build && node tests/extension_startup.cjs",
+        "test": "npm run test:extension && node tests/extension_panel.cjs && .venv\\Scripts\\python.exe -m pytest -q",
+        "lint": ".venv\\Scripts\\python.exe -m ruff check backend tests",
+        "test:integration": "npm run build && node tests/extension_search.cjs",
+        "test:install": "npm run package && node tests/extension_install.cjs",
+        "format": "prettier --write \"extension/**/*.{ts,html}\" \"tests/*.cjs\" \"*.json\" \".github/workflows/*.yml\" && .venv\\Scripts\\python.exe -m ruff format backend tests",
+        "format:check": "prettier --check \"extension/**/*.{ts,html}\" \"tests/*.cjs\" \"*.json\" \".github/workflows/*.yml\" && .venv\\Scripts\\python.exe -m ruff format --check backend tests",
+        "package": "vsce package"
+    },
+    "devDependencies": {
+        "@types/node": "18.x",
+        "@types/vscode": "^1.86.0",
+        "@vscode/vsce": "^4.0.0",
+        "prettier": "^3.9.9",
+        "typescript": "^5.3.3"
+    },
+    "license": "MIT"
+}

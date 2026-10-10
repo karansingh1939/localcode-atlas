@@ -1,0 +1,41 @@
+# Databases & Local State
+.vectorai_db/
+last_repo.json
+*.db
+*.db-wal
+*.db-shm
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.log
+
+# Dependencies & Build Output
+node_modules/
+dist/
+out/
+build/
+*.vsix
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# IDE & OS
+.vscode/*
+!.vscode/launch.json
+.DS_Store
+Thumbs.db
+
+# Tool caches and private credentials
+.ruff_cache/
+.coverage
+htmlcov/
+*.pem
+*.key

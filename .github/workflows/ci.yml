@@ -1,0 +1,39 @@
+name: LocalCode Atlas checks
+
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    windows:
+        runs-on: windows-latest
+        timeout-minutes: 20
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: '3.12'
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+                  cache: npm
+            - name: Install dependencies
+              run: |
+                  python -m venv .venv
+                  .venv/Scripts/python.exe -m pip install -r requirements-windows.lock
+                  .venv/Scripts/python.exe -m pip install --no-deps -e .
+                  npm ci
+            - run: npm run lint
+            - run: npm run format:check
+            - run: npm test
+            - run: npm audit --audit-level=high
+            - name: API and extension integration
+              run: npm run test:integration
+              env:
+                  CODELENS_FAKE_OLLAMA: '1'
+            - name: Fresh packaged installation
+              run: npm run test:install

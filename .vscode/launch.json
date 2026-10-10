@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run LocalCode Atlas Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": ["${workspaceFolder}", "--extensionDevelopmentPath=${workspaceFolder}"],
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+            "preLaunchTask": "npm: compile"
+        }
+    ]
+}

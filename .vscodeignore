@@ -1,0 +1,14 @@
+**
+!package.json
+!package-lock.json
+!.env.example
+!dist/extension/src/*.js
+!media/codelens-icon.svg
+!extension/media/panel.html
+!backend/*.py
+!pyproject.toml
+!requirements-windows.lock
+!setup.ps1
+!start.ps1
+!README.md
+!LICENSE
