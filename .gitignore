@@ -17,6 +17,7 @@ dist/
 out/
 build/
 *.vsix
+benchmarks/search-latest.json
 
 # Python
 __pycache__/

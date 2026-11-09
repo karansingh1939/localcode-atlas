@@ -31,8 +31,8 @@ try {
     }
     if (-not $ready) { throw "Ollama did not start at $($taskConfig.host)." }
 }
-$models = ollama list
-if ($LASTEXITCODE -ne 0) { throw 'Could not list local Ollama models.' }
+ollama list | Out-Null
+if ($LASTEXITCODE -ne 0) { throw 'The Ollama CLI is not working.' }
 $taskModelNames = (Invoke-RestMethod "$($taskConfig.host)/api/tags" -TimeoutSec 3).models.name
 $taskModelName = if ($taskConfig.model.Contains(':')) { $taskConfig.model } else { "$($taskConfig.model):latest" }
 if ($taskModelNames -notcontains $taskModelName) {

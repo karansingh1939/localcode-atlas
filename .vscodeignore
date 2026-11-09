@@ -3,7 +3,7 @@
 !package-lock.json
 !.env.example
 !dist/extension/src/*.js
-!media/codelens-icon.svg
+!media/localcode-atlas-icon.svg
 !extension/media/panel.html
 !backend/*.py
 !pyproject.toml
@@ -11,6 +11,4 @@
 !setup.ps1
 !start.ps1
 !README.md
-!benchmarks/README.md
-!benchmarks/search-2026-10-14.json
 !LICENSE

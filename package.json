@@ -1,6 +1,6 @@
 {
     "name": "localcode-atlas",
-    "displayName": "LocalCode Atlas ? Private, offline code search for VS Code",
+    "displayName": "LocalCode Atlas - Private, offline code search for VS Code",
     "description": "Private, offline code search for VS Code using SQLite, NumPy, and Ollama. Maintained by Karan Singh.",
     "version": "0.2.0",
     "private": true,
@@ -53,7 +53,7 @@
                 {
                     "id": "codelens-sidebar",
                     "title": "LocalCode Atlas Search",
-                    "icon": "media/codelens-icon.svg"
+                    "icon": "media/localcode-atlas-icon.svg"
                 }
             ]
         },
