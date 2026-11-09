@@ -23,6 +23,8 @@ async function checkSearch() {
     await new Promise((resolve) => socket.close(resolve));
     const url = `http://127.0.0.1:${port}`;
     let fakeOllama;
+    const chatRequests = [];
+    let chatAvailable = true;
     let ollamaHost = process.env.OLLAMA_HOST;
     if (process.env.CODELENS_FAKE_OLLAMA === '1') {
         fakeOllama = http.createServer(async (req, res) => {
@@ -43,6 +45,23 @@ async function checkSearch() {
                         prompt_eval_count: 1,
                     }),
                 );
+            } else if (req.url === '/api/chat') {
+                chatRequests.push(JSON.parse(body));
+                if (!chatAvailable) {
+                    res.writeHead(404);
+                    res.end(JSON.stringify({ error: 'explanation model is not installed' }));
+                } else {
+                    res.end(
+                        JSON.stringify({
+                            model: 'llama3.2',
+                            message: {
+                                role: 'assistant',
+                                content: 'parse_code_files in parser.py parses source into chunks.',
+                            },
+                            done: true,
+                        }),
+                    );
+                }
             } else {
                 res.writeHead(404);
                 res.end(JSON.stringify({ error: 'Unexpected fake Ollama endpoint' }));
@@ -126,6 +145,25 @@ async function checkSearch() {
             message.data.some((result) => fs.existsSync(path.resolve(repo, result.file_path))),
         );
         assert.equal(message.data[0].file_path, 'parser.py');
+        assert.equal(message.explain_text, null);
+        if (fakeOllama || process.env.CODELENS_TEST_EXPLAIN === '1') {
+            await panel.handleQuery('where are code files parsed into chunks', true);
+            assert.equal(message.type, 'results', JSON.stringify(message));
+            assert.ok(message.data.length > 0);
+            assert.ok(message.explain_text?.trim(), 'Expected an AI explanation');
+            assert.ok(!message.explain_text.includes('unavailable'), message.explain_text);
+            console.log(`Explanation returned: ${message.explain_text}`);
+            if (fakeOllama) {
+                assert.equal(chatRequests.length, 1);
+                assert.equal(chatRequests[0].stream, false);
+                assert.ok(chatRequests[0].messages[1].content.includes('parser.py'));
+                chatAvailable = false;
+                await panel.handleQuery('parse_code_files', true);
+                assert.equal(message.type, 'results', JSON.stringify(message));
+                assert.equal(message.data[0].file_path, 'parser.py');
+                assert.match(message.explain_text, /Explain mode unavailable/);
+            }
+        }
         fs.writeFileSync(source, 'def parse_code_files(source):\n    return "watcher_updated"\n');
         let updated = false;
         for (let attempt = 0; attempt < 60; attempt++) {

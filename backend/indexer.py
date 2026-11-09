@@ -97,6 +97,7 @@ class Indexer:
         )
         self.observer: Observer | None = None
         self._handler: RepoEventHandler | None = None
+        self.update_lock = threading.RLock()
 
     def walk_repo(self) -> Generator[str, None, None]:
         for root, dirs, files in os.walk(self.repo_path):
@@ -262,8 +263,14 @@ class RepoEventHandler(FileSystemEventHandler):
         self.indexer = indexer
         self.debounce_seconds = debounce_seconds
         self._timers: dict[str, threading.Timer] = {}
-        self._lock = threading.RLock()
+        self._lock = indexer.update_lock
         self._closed = False
+
+    def dispatch(self, event):
+        # Full indexing holds this lock while the observer continues queuing events.
+        with self._lock:
+            if not self._closed:
+                super().dispatch(event)
 
     def close(self):
         with self._lock:
@@ -283,7 +290,7 @@ class RepoEventHandler(FileSystemEventHandler):
     def _refresh_exclusions(self, path):
         if Path(path).name not in {".gitignore", ".codelensignore"}:
             return False
-        if self.indexer.exclusions.ignored(path):
+        if self.indexer.exclusions.ignored(str(Path(path).parent), directory=True):
             return False
         self.indexer.remove_deleted_files()
         for file in self.indexer.walk_repo():

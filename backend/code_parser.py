@@ -133,6 +133,7 @@ def extract_chunks(file_path: str, content: str) -> list[dict]:
 
     target_types = TARGET_NODE_TYPES.get(lang_name, set())
     chunks: list[dict] = []
+    spans = []
 
     stack = [tree.root_node]
     while stack:
@@ -145,6 +146,7 @@ def extract_chunks(file_path: str, content: str) -> list[dict]:
             is_target = bool(parent and parent.type == "variable_declarator")
 
         if is_target:
+            spans.append((node.start_byte, node.end_byte))
             symbol_name = _get_symbol_name(node, source_bytes)
             chunk_text = source_bytes[node.start_byte : node.end_byte].decode(
                 "utf-8", errors="replace"
@@ -167,6 +169,23 @@ def extract_chunks(file_path: str, content: str) -> list[dict]:
 
     if not chunks and content.strip():
         return _sliding_window(file_path, content, lang_name)
+
+    # Preserve configuration, imports and initialization outside semantic units.
+    end = 0
+    for start, stop in sorted(spans) + [(len(source_bytes), len(source_bytes))]:
+        if start > end:
+            gap = source_bytes[end:start].decode("utf-8")
+            leading = gap[: len(gap) - len(gap.lstrip())]
+            row_offset = source_bytes[:end].count(b"\n") + leading.count("\n")
+            gap = gap.lstrip()
+            for chunk in _sliding_window(file_path, gap, lang_name):
+                chunk["line_start"] += row_offset
+                chunk["line_end"] += row_offset
+                chunk["symbol_name"] = (
+                    f"lines_{chunk['line_start']}_{chunk['line_end']}"
+                )
+                chunks.append(chunk)
+        end = max(end, stop)
 
     return chunks
 

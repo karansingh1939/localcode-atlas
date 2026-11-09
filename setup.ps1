@@ -40,7 +40,9 @@ if ($taskModelNames -notcontains $taskModelName) {
     if ($LASTEXITCODE -ne 0) { throw 'Ollama model installation failed.' }
 }
 
-npm.cmd ci
-if ($LASTEXITCODE -ne 0) { throw 'Node dependency installation failed.' }
-npm.cmd run build
-if ($LASTEXITCODE -ne 0) { throw 'Extension build failed.' }
+if (Test-Path -LiteralPath 'tsconfig.json') {
+    npm.cmd ci
+    if ($LASTEXITCODE -ne 0) { throw 'Node dependency installation failed.' }
+    npm.cmd run build
+    if ($LASTEXITCODE -ne 0) { throw 'Extension build failed.' }
+}

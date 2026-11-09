@@ -7,6 +7,7 @@ import { StringDecoder } from 'string_decoder';
 
 export class SearchPanelProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
+    private queryId = 0;
 
     constructor(private readonly _extensionUri: vscode.Uri) {}
 
@@ -76,6 +77,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
     }
 
     private async handleQuery(text: string, explain: boolean) {
+        const queryId = ++this.queryId;
         try {
             const response = await fetch('http://127.0.0.1:8000/query', {
                 method: 'POST',
@@ -98,6 +100,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
                 query_ms: number;
                 total_indexed: number;
             };
+            if (queryId !== this.queryId) return;
             this._view?.webview.postMessage({
                 type: 'results',
                 data: result.results,
@@ -106,6 +109,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
                 total_indexed: result.total_indexed,
             });
         } catch (error: any) {
+            if (queryId !== this.queryId) return;
             this._view?.webview.postMessage({ type: 'error', message: error.message });
         }
     }

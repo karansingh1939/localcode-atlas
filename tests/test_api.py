@@ -26,6 +26,27 @@ def test_api_health():
         assert "vectorai" in data
 
 
+@pytest.mark.parametrize("online", [True, False])
+def test_startup_in_legacy_console(monkeypatch, online):
+    import io
+    import sys
+    import urllib.request
+
+    def check_ollama(*args, **kwargs):
+        if not online:
+            raise OSError("Ollama is offline")
+
+    monkeypatch.setattr(urllib.request, "urlopen", check_ollama)
+    output = io.BytesIO()
+    console = io.TextIOWrapper(output, encoding="cp1252", errors="strict")
+    monkeypatch.setattr(sys, "stdout", console)
+    with TestClient(app) as client:
+        assert client.get("/status").status_code == 200
+    console.flush()
+    assert b"Backend Engine Starting" in output.getvalue()
+    assert (b"ONLINE" if online else b"OFFLINE") in output.getvalue()
+
+
 def test_api_status():
     with TestClient(app) as client:
         resp = client.get("/status")

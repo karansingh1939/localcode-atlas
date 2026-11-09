@@ -1,0 +1,1093 @@
+{
+  "measured_at_utc": "2026-10-14T08:25:17.437053+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "logical_cpus": 20,
+  "python": "3.12.6",
+  "numpy": "2.5.3",
+  "source_files": [
+    "backend/__init__.py",
+    "backend/api.py",
+    "backend/code_parser.py",
+    "backend/config.py",
+    "backend/exclusions.py",
+    "backend/indexer.py",
+    "backend/search.py",
+    "backend/vector_store.py",
+    "extension/src/extension.ts",
+    "extension/src/searchPanel.ts"
+  ],
+  "source_sha256": {
+    "backend/__init__.py": "724da87297147414b296d107e52fd923e0bd0aae786addb89ce7256a7d38e309",
+    "backend/api.py": "d4fa7a34330c11d36dbc0ab7acb85911fee520eb0cd2cd2276d63915bc21af26",
+    "backend/code_parser.py": "98a01c848c2c2d003e6ad6205cdc05703a0ceff9c8761963d854da834084f98d",
+    "backend/config.py": "0f748167344884298c6539f1abfa4bbfd267cc523f7774b3e9c86a907fa411b5",
+    "backend/exclusions.py": "f1d55353ec0a8cd162036f03015d81eede7bbe71da83d2abcd28e3e72ea31868",
+    "backend/indexer.py": "6ad3edf677e772762b6e139a72630e4011f04ac2b2c214a50a31c238f8404f31",
+    "backend/search.py": "b5bfe4810d7c5a001b4a05edfb3fb04560fa74c9d9f4f732a1dde777b707c303",
+    "backend/vector_store.py": "3676ca2910f52019e97c9a8978902d00912a36f8ad42a076a5f7788f0582a71d",
+    "extension/src/extension.ts": "f8738c42ef0460f16c73e6707d674ecd47b8278a7fa454734ed7e97464b7e4bd",
+    "extension/src/searchPanel.ts": "f333b726a4a7949c3988529ea0377a7ec26651d3181c48c93e6e85e1fb228a99"
+  },
+  "source_chunks": 154,
+  "scale_method": "Real source text repeated under unique paths, seeded random 768-dimensional vectors. Serial local DB searches; no Ollama or HTTP. OS cache not cleared; warm p50/p95 follow one first query. No relevance claims for scale data.",
+  "scale": [
+    {
+      "chunks": 1000,
+      "db_bytes": 4689920,
+      "vector_only": {
+        "first_query_ms": 18.667999996978324,
+        "samples_ms": [
+          11.598699995374773,
+          11.564099993847776,
+          11.848599999211729,
+          11.841300001833588,
+          11.677200003759935,
+          11.306300002615899,
+          19.531500001903623,
+          23.3280000029481,
+          16.707300004782155,
+          16.360199995688163,
+          15.417599999636877,
+          13.772300000709947,
+          11.925300001166761,
+          12.534100002085324,
+          14.09109999804059,
+          14.402100001461804,
+          13.920199999120086,
+          12.857900001108646,
+          12.214200003654696,
+          12.24289999663597
+        ],
+        "p50_ms": 12.696000001596985,
+        "p95_ms": 19.72132500195585
+      },
+      "hybrid": {
+        "first_query_ms": 71.32460000138963,
+        "samples_ms": [
+          55.714599999191705,
+          54.67599999974482,
+          59.11480000213487,
+          58.16169999889098,
+          53.46020000433782,
+          63.909199998306576,
+          59.8898999960511,
+          64.61319999652915,
+          61.72130000049947,
+          59.455099995830096,
+          63.10539999685716,
+          62.50819999695523,
+          58.4720999977435,
+          71.17070000094827,
+          55.30189999990398,
+          57.15729999792529,
+          60.21109999710461,
+          65.9906000000774,
+          54.80579999857582,
+          70.12959999701707
+        ],
+        "p50_ms": 59.6724999959406,
+        "p95_ms": 70.18165499721363
+      }
+    },
+    {
+      "chunks": 10000,
+      "db_bytes": 46616576,
+      "vector_only": {
+        "first_query_ms": 260.0280999977258,
+        "samples_ms": [
+          252.78660000185482,
+          237.48060000070836,
+          238.05829999764683,
+          242.61259999912,
+          225.40920000028564,
+          235.33980000502197,
+          236.33179999887943,
+          227.09910000412492,
+          235.38879999978235,
+          241.21000000013737,
+          235.8959999983199,
+          228.16839999723015,
+          237.7353000047151,
+          222.98310000041965,
+          231.12050000054296,
+          230.09389999788254,
+          232.64740000013262,
+          231.59600000508362,
+          243.3344000019133,
+          231.77710000163643
+        ],
+        "p50_ms": 235.36430000240216,
+        "p95_ms": 243.80701000191038
+      },
+      "hybrid": {
+        "first_query_ms": 1119.6008999977494,
+        "samples_ms": [
+          1106.9038999994518,
+          1108.750700004748,
+          1136.8693000040366,
+          1107.717099999718,
+          1084.7011000005296,
+          1115.6050999998115,
+          1132.9101999945124,
+          1128.870199994708,
+          1155.9771999964141,
+          1110.8961999998428,
+          1142.645200001425,
+          1131.0002000027453,
+          1161.2808999998379,
+          1177.875599998515,
+          1127.3400999998557,
+          1149.4730999984313,
+          1138.2768000039505,
+          1187.5433000022895,
+          1151.8875999972806,
+          1181.5267999991192
+        ],
+        "p50_ms": 1134.8897499992745,
+        "p95_ms": 1181.8276249992778
+      }
+    },
+    {
+      "chunks": 50000,
+      "db_bytes": 234242048,
+      "vector_only": {
+        "first_query_ms": 1275.1677999985986,
+        "samples_ms": [
+          1277.75549999933,
+          1183.6003999997047,
+          1158.7240000008023,
+          1156.2313000031281,
+          1178.8223999974434,
+          1249.6719999980996,
+          1235.9761999978218,
+          1235.5883000054746,
+          1197.5887000007788,
+          1170.817199999874,
+          1159.0652000013506,
+          1115.3533999968204,
+          1091.7106999986572,
+          1117.8701000026194,
+          1108.8444000051823,
+          1116.565600001195,
+          1070.1932999945711,
+          1075.0549000003957,
+          1091.787999997905,
+          1128.8334999990184
+        ],
+        "p50_ms": 1157.4776500019652,
+        "p95_ms": 1251.0761749981612
+      },
+      "hybrid": {
+        "first_query_ms": 5463.585999998031,
+        "samples_ms": [
+          5502.842599998985,
+          5515.585300003295,
+          5479.953800000658,
+          5445.1977999997325,
+          5598.996199994872,
+          5539.32899999927,
+          5770.870400003332,
+          5619.71760000597,
+          5645.0336999987485,
+          5634.121000002779,
+          5611.755499994615,
+          5708.969599996635,
+          5643.5215000019525,
+          5723.891800000274,
+          5579.342199998791,
+          5661.172299995087,
+          5715.961300003983,
+          5827.470100004575,
+          5739.57209999935,
+          5923.757399999886
+        ],
+        "p50_ms": 5638.821250002366,
+        "p95_ms": 5832.284465004341
+      }
+    }
+  ],
+  "relevance": {
+    "model": "nomic-embed-text",
+    "model_details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "nomic-bert",
+      "families": [
+        "nomic-bert"
+      ],
+      "parameter_size": "137M",
+      "quantization_level": "F16"
+    },
+    "chunks": 154,
+    "hit_at_1": 0.5,
+    "hit_at_5": 0.8,
+    "mrr_at_5": 0.5933333333333334,
+    "queries": [
+      {
+        "kind": "symbol",
+        "query": "find chunk_file",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "chunk_file"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 36.61439999996219,
+        "search_ms": 32.30310000071768,
+        "top_5": [
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "chunk_file",
+            "line_start": 40,
+            "score": 0.9620258301496506
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "chunk_file",
+            "line_start": 73,
+            "score": 0.9579228371381759
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_file_async",
+            "line_start": 226,
+            "score": 0.648061192035675
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "get_file_hashes",
+            "line_start": 171,
+            "score": 0.6381282210350037
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 120,
+            "score": 0.6104978442192077
+          }
+        ]
+      },
+      {
+        "kind": "symbol",
+        "query": "find canonical_repo",
+        "file": "backend/vector_store.py",
+        "symbols": [
+          "canonical_repo"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 49.53180000302382,
+        "search_ms": 26.867299995501526,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "canonical_repo",
+            "line_start": 321,
+            "score": 0.9738566517829894
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "save_last_repo",
+            "line_start": 49,
+            "score": 0.6373951196670532
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "get_last_repo",
+            "line_start": 45,
+            "score": 0.62899449467659
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "walk_repo",
+            "line_start": 101,
+            "score": 0.6210064738988876
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "get_db",
+            "line_start": 325,
+            "score": 0.6073875993490219
+          }
+        ]
+      },
+      {
+        "kind": "symbol",
+        "query": "where is handleQuery implemented",
+        "file": "extension/src/searchPanel.ts",
+        "symbols": [
+          "handleQuery"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 41.856199997710064,
+        "search_ms": 20.41060000192374,
+        "top_5": [
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "handleQuery",
+            "line_start": 78,
+            "score": 0.9462456792593003
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "handleQuery",
+            "line_start": 106,
+            "score": 0.9330425322055816
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "run_query",
+            "line_start": 18,
+            "score": 0.537173201640447
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "SearchPanelProvider",
+            "line_start": 69,
+            "score": 0.5265756130218506
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 33,
+            "score": 0.5252145727475485
+          }
+        ]
+      },
+      {
+        "kind": "symbol",
+        "query": "find _hybrid_scores",
+        "file": "backend/vector_store.py",
+        "symbols": [
+          "_hybrid_scores"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 45.60400000627851,
+        "search_ms": 20.07989999401616,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "_hybrid_scores",
+            "line_start": 256,
+            "score": 0.9627984315156937
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "_hybrid_scores",
+            "line_start": 257,
+            "score": 0.9626794934272765
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "_hybrid_scores",
+            "line_start": 297,
+            "score": 0.9423926770687103
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "_hybrid_scores",
+            "line_start": 298,
+            "score": 0.941459983587265
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 235,
+            "score": 0.6167884290218353
+          }
+        ]
+      },
+      {
+        "kind": "filename",
+        "query": "backend/search.py",
+        "file": "backend/search.py",
+        "symbols": [],
+        "rank_at_5": 1,
+        "embed_ms": 42.356899997685105,
+        "search_ms": 20.179999999527354,
+        "top_5": [
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "run_query",
+            "line_start": 18,
+            "score": 0.9605863213539124
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 33,
+            "score": 0.958546644449234
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "run_query_sync",
+            "line_start": 107,
+            "score": 0.9557708978652955
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 74,
+            "score": 0.9501996755599976
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_get_ollama_client",
+            "line_start": 14,
+            "score": 0.9478101134300232
+          }
+        ]
+      },
+      {
+        "kind": "filename",
+        "query": "code_parser.py",
+        "file": "backend/code_parser.py",
+        "symbols": [],
+        "rank_at_5": 1,
+        "embed_ms": 43.740400004026014,
+        "search_ms": 19.156799993652385,
+        "top_5": [
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "_get_symbol_name",
+            "line_start": 113,
+            "score": 0.9573458433151245
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 120,
+            "score": 0.9554593682289124
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "_get_symbol_name",
+            "line_start": 82,
+            "score": 0.9546772599220276
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "_sliding_window",
+            "line_start": 174,
+            "score": 0.9525967955589295
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 151,
+            "score": 0.9524156391620636
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "where are source files parsed with tree sitter into semantic chunks",
+        "file": "backend/code_parser.py",
+        "symbols": [
+          "extract_chunks"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 48.53360000561224,
+        "search_ms": 20.21740000054706,
+        "top_5": [
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 120,
+            "score": 0.6339951054917441
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 151,
+            "score": 0.5368035382694668
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "batch_upsert",
+            "line_start": 111,
+            "score": 0.5241618692874909
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store_sync",
+            "line_start": 168,
+            "score": 0.5228868583838145
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 169,
+            "score": 0.519730144739151
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "split oversized code chunks into pieces of at most 1200 characters",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "chunk_file"
+        ],
+        "rank_at_5": 3,
+        "embed_ms": 41.185499998391606,
+        "search_ms": 20.419599997694604,
+        "top_5": [
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 120,
+            "score": 0.5170437502861023
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 151,
+            "score": 0.5086792814731598
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "chunk_file",
+            "line_start": 40,
+            "score": 0.4847510379552841
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "_sliding_window",
+            "line_start": 174,
+            "score": 0.4797124803066254
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "batch_upsert",
+            "line_start": 111,
+            "score": 0.4779029631614685
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "reuse cached embeddings for unchanged chunks during reindexing",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "_embedding_plan",
+          "embed_and_store",
+          "embed_and_store_sync"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 52.63139999442501,
+        "search_ms": 24.828299996443093,
+        "top_5": [
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store_sync",
+            "line_start": 168,
+            "score": 0.5866451804127012
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store",
+            "line_start": 144,
+            "score": 0.5679027084793363
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "_embedding_plan",
+            "line_start": 121,
+            "score": 0.565602490731648
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "Indexer",
+            "line_start": 116,
+            "score": 0.5602454934801374
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "Indexer",
+            "line_start": 176,
+            "score": 0.5578503702368055
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "batch requests to Ollama to embed source code",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "embed_and_store",
+          "embed_and_store_sync"
+        ],
+        "rank_at_5": 4,
+        "embed_ms": 49.79019999882439,
+        "search_ms": 20.29970000148751,
+        "top_5": [
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "_collect_embeddings",
+            "line_start": 131,
+            "score": 0.6191729545593262
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "_collect_embeddings",
+            "line_start": 132,
+            "score": 0.6147752046585083
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "Indexer",
+            "line_start": 176,
+            "score": 0.5908308684825897
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store_sync",
+            "line_start": 168,
+            "score": 0.5907740632692973
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store",
+            "line_start": 144,
+            "score": 0.5897679666678111
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "debounce repeated file save events before reindexing",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "reindex_if_supported"
+        ],
+        "rank_at_5": 5,
+        "embed_ms": 43.3952000021236,
+        "search_ms": 20.609700004570186,
+        "top_5": [
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_file_async",
+            "line_start": 226,
+            "score": 0.5153157881328038
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_file",
+            "line_start": 235,
+            "score": 0.4990120253392628
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "RepoEventHandler",
+            "line_start": 260,
+            "score": 0.48506409057549066
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "RepoEventHandler",
+            "line_start": 357,
+            "score": 0.4812963468687875
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_if_supported",
+            "line_start": 343,
+            "score": 0.4792613766023091
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "ignore files using nested gitignore rules and negated patterns",
+        "file": "backend/exclusions.py",
+        "symbols": [
+          "_matches",
+          "ignored"
+        ],
+        "rank_at_5": null,
+        "embed_ms": 64.34319999971194,
+        "search_ms": 25.937999998859596,
+        "top_5": [
+          {
+            "file_path": "backend/exclusions.py",
+            "symbol_name": "Exclusions",
+            "line_start": 24,
+            "score": 0.5459469437599183
+          },
+          {
+            "file_path": "backend/exclusions.py",
+            "symbol_name": "Exclusions",
+            "line_start": 55,
+            "score": 0.5265729904174805
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "_refresh_exclusions",
+            "line_start": 283,
+            "score": 0.5239057123661042
+          },
+          {
+            "file_path": "backend/exclusions.py",
+            "symbol_name": "__init__",
+            "line_start": 25,
+            "score": 0.5169398367404938
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "Indexer",
+            "line_start": 86,
+            "score": 0.5026394605636597
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "restore file watchers for previously indexed workspaces when the backend starts",
+        "file": "backend/api.py",
+        "symbols": [
+          "lifespan"
+        ],
+        "rank_at_5": 2,
+        "embed_ms": 47.84079999808455,
+        "search_ms": 20.380099995236378,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "indexed_workspaces",
+            "line_start": 364,
+            "score": 0.5849826832612355
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "lifespan",
+            "line_start": 70,
+            "score": 0.549670453535186
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "lifespan",
+            "line_start": 71,
+            "score": 0.5473995612727272
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "indexer_worker",
+            "line_start": 198,
+            "score": 0.5305018888579475
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_file_async",
+            "line_start": 226,
+            "score": 0.5269927713606093
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "migrate the legacy database to a separate workspace index without deleting the original",
+        "file": "backend/vector_store.py",
+        "symbols": [
+          "get_db"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 43.95400000066729,
+        "search_ms": 22.020800002792384,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "get_db",
+            "line_start": 351,
+            "score": 0.5385078867276509
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "lifespan",
+            "line_start": 71,
+            "score": 0.5208576778570811
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "lifespan",
+            "line_start": 70,
+            "score": 0.5187076191107433
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "get_db",
+            "line_start": 325,
+            "score": 0.5052006403605144
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "indexed_workspaces",
+            "line_start": 364,
+            "score": 0.5041176527738571
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "reject search requests when the embedding model changed",
+        "file": "backend/api.py",
+        "symbols": [
+          "api_query"
+        ],
+        "rank_at_5": null,
+        "embed_ms": 43.44470000069123,
+        "search_ms": 21.133700000063982,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 196,
+            "score": 0.9518462657928467
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 230,
+            "score": 0.9348407298326492
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 33,
+            "score": 0.5340205980198723
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 201,
+            "score": 0.5266072179589952
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "embed_and_store_sync",
+            "line_start": 168,
+            "score": 0.5224588010992323
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "stream indexing progress to the extension using server sent events",
+        "file": "backend/api.py",
+        "symbols": [
+          "api_index",
+          "sse_gen",
+          "indexer_worker"
+        ],
+        "rank_at_5": null,
+        "embed_ms": 43.1176999991294,
+        "search_ms": 19.972100002632942,
+        "top_5": [
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "SearchPanelProvider",
+            "line_start": 166,
+            "score": 0.5742212116718293
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "handleReindex",
+            "line_start": 174,
+            "score": 0.5330727189779282
+          },
+          {
+            "file_path": "extension/src/extension.ts",
+            "symbol_name": "startBackendServer",
+            "line_start": 112,
+            "score": 0.5252752900123596
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "SearchPanelProvider",
+            "line_start": 206,
+            "score": 0.5133556574583054
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "handleReindex",
+            "line_start": 193,
+            "score": 0.5075015127658844
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "combine cosine similarity with exact symbols filenames and keywords",
+        "file": "backend/vector_store.py",
+        "symbols": [
+          "_hybrid_scores",
+          "search"
+        ],
+        "rank_at_5": 1,
+        "embed_ms": 46.12939999788068,
+        "search_ms": 38.60590000113007,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 196,
+            "score": 0.5819981753826141
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 201,
+            "score": 0.5673729300498962
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 169,
+            "score": 0.55201857984066
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "LocalVectorDB",
+            "line_start": 18,
+            "score": 0.5121915757656097
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "_hybrid_scores",
+            "line_start": 297,
+            "score": 0.5114483177661896
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "explain the top code search results with a local language model and handle a missing model",
+        "file": "backend/search.py",
+        "symbols": [
+          "_query_with_client"
+        ],
+        "rank_at_5": 4,
+        "embed_ms": 51.5637999997125,
+        "search_ms": 38.91999999905238,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 196,
+            "score": 0.9474123150110244
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 230,
+            "score": 0.9364325582981109
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "run_query",
+            "line_start": 18,
+            "score": 0.5720287870277058
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 33,
+            "score": 0.5635840906338259
+          },
+          {
+            "file_path": "backend/search.py",
+            "symbol_name": "_query_with_client",
+            "line_start": 74,
+            "score": 0.5353749212893573
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "delete indexed chunks when a source file is removed",
+        "file": "backend/indexer.py",
+        "symbols": [
+          "on_deleted",
+          "remove_deleted_files"
+        ],
+        "rank_at_5": null,
+        "embed_ms": 41.80339999584248,
+        "search_ms": 20.332799998868722,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "delete_by_filepath",
+            "line_start": 180,
+            "score": 0.5717324350561415
+          },
+          {
+            "file_path": "backend/code_parser.py",
+            "symbol_name": "extract_chunks",
+            "line_start": 120,
+            "score": 0.5689372386251177
+          },
+          {
+            "file_path": "backend/indexer.py",
+            "symbol_name": "reindex_file_async",
+            "line_start": 226,
+            "score": 0.5635417516742434
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "clear",
+            "line_start": 186,
+            "score": 0.5537186277764184
+          },
+          {
+            "file_path": "backend/api.py",
+            "symbol_name": "indexer_worker",
+            "line_start": 167,
+            "score": 0.5482510353837694
+          }
+        ]
+      },
+      {
+        "kind": "concept",
+        "query": "open a search result at its source file and line number in VS Code",
+        "file": "extension/src/searchPanel.ts",
+        "symbols": [
+          "handleJumpTo"
+        ],
+        "rank_at_5": 3,
+        "embed_ms": 47.364100006234366,
+        "search_ms": 23.97880000353325,
+        "top_5": [
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 196,
+            "score": 0.9466049611568451
+          },
+          {
+            "file_path": "backend/vector_store.py",
+            "symbol_name": "search",
+            "line_start": 230,
+            "score": 0.9353096157312393
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "handleJumpTo",
+            "line_start": 230,
+            "score": 0.6136960994113575
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "SearchPanelProvider",
+            "line_start": 245,
+            "score": 0.6090670853853226
+          },
+          {
+            "file_path": "extension/src/searchPanel.ts",
+            "symbol_name": "SearchPanelProvider",
+            "line_start": 206,
+            "score": 0.5639664048498327
+          }
+        ]
+      }
+    ]
+  }
+}

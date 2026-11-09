@@ -1,0 +1,122 @@
+[
+    {
+        "kind": "symbol",
+        "query": "find chunk_file",
+        "file": "backend/indexer.py",
+        "symbols": ["chunk_file"]
+    },
+    {
+        "kind": "symbol",
+        "query": "find canonical_repo",
+        "file": "backend/vector_store.py",
+        "symbols": ["canonical_repo"]
+    },
+    {
+        "kind": "symbol",
+        "query": "where is handleQuery implemented",
+        "file": "extension/src/searchPanel.ts",
+        "symbols": ["handleQuery"]
+    },
+    {
+        "kind": "symbol",
+        "query": "find _hybrid_scores",
+        "file": "backend/vector_store.py",
+        "symbols": ["_hybrid_scores"]
+    },
+    {
+        "kind": "filename",
+        "query": "backend/search.py",
+        "file": "backend/search.py",
+        "symbols": []
+    },
+    {
+        "kind": "filename",
+        "query": "code_parser.py",
+        "file": "backend/code_parser.py",
+        "symbols": []
+    },
+    {
+        "kind": "concept",
+        "query": "where are source files parsed with tree sitter into semantic chunks",
+        "file": "backend/code_parser.py",
+        "symbols": ["extract_chunks"]
+    },
+    {
+        "kind": "concept",
+        "query": "split oversized code chunks into pieces of at most 1200 characters",
+        "file": "backend/indexer.py",
+        "symbols": ["chunk_file"]
+    },
+    {
+        "kind": "concept",
+        "query": "reuse cached embeddings for unchanged chunks during reindexing",
+        "file": "backend/indexer.py",
+        "symbols": ["_embedding_plan", "embed_and_store", "embed_and_store_sync"]
+    },
+    {
+        "kind": "concept",
+        "query": "batch requests to Ollama to embed source code",
+        "file": "backend/indexer.py",
+        "symbols": ["embed_and_store", "embed_and_store_sync"]
+    },
+    {
+        "kind": "concept",
+        "query": "debounce repeated file save events before reindexing",
+        "file": "backend/indexer.py",
+        "symbols": ["reindex_if_supported"]
+    },
+    {
+        "kind": "concept",
+        "query": "ignore files using nested gitignore rules and negated patterns",
+        "file": "backend/exclusions.py",
+        "symbols": ["_matches", "ignored"]
+    },
+    {
+        "kind": "concept",
+        "query": "restore file watchers for previously indexed workspaces when the backend starts",
+        "file": "backend/api.py",
+        "symbols": ["lifespan"]
+    },
+    {
+        "kind": "concept",
+        "query": "migrate the legacy database to a separate workspace index without deleting the original",
+        "file": "backend/vector_store.py",
+        "symbols": ["get_db"]
+    },
+    {
+        "kind": "concept",
+        "query": "reject search requests when the embedding model changed",
+        "file": "backend/api.py",
+        "symbols": ["api_query"]
+    },
+    {
+        "kind": "concept",
+        "query": "stream indexing progress to the extension using server sent events",
+        "file": "backend/api.py",
+        "symbols": ["api_index", "sse_gen", "indexer_worker"]
+    },
+    {
+        "kind": "concept",
+        "query": "combine cosine similarity with exact symbols filenames and keywords",
+        "file": "backend/vector_store.py",
+        "symbols": ["_hybrid_scores", "search"]
+    },
+    {
+        "kind": "concept",
+        "query": "explain the top code search results with a local language model and handle a missing model",
+        "file": "backend/search.py",
+        "symbols": ["_query_with_client"]
+    },
+    {
+        "kind": "concept",
+        "query": "delete indexed chunks when a source file is removed",
+        "file": "backend/indexer.py",
+        "symbols": ["on_deleted", "remove_deleted_files"]
+    },
+    {
+        "kind": "concept",
+        "query": "open a search result at its source file and line number in VS Code",
+        "file": "extension/src/searchPanel.ts",
+        "symbols": ["handleJumpTo"]
+    }
+]

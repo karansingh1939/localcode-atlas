@@ -135,7 +135,9 @@ async function startBackendServer(context: vscode.ExtensionContext) {
         ['-m', 'uvicorn', 'backend.api:app', '--host', '127.0.0.1', '--port', PORT.toString()],
         {
             cwd,
-            detached: false,
+            // Several VS Code windows share this service; none owns its lifetime.
+            detached: true,
+            stdio: 'ignore',
             windowsHide: true,
             env: {
                 ...process.env,
@@ -145,9 +147,8 @@ async function startBackendServer(context: vscode.ExtensionContext) {
             },
         },
     );
+    backendProcess.unref();
 
-    backendProcess.stdout?.on('data', (d) => console.log(`[LocalCode Atlas]: ${d}`));
-    backendProcess.stderr?.on('data', (d) => console.error(`[LocalCode Atlas ERR]: ${d}`));
     backendProcess.on('error', (error) => {
         statusBarItem.text = '$(database) LocalCode Atlas: Offline';
         vscode.window.showErrorMessage(`LocalCode Atlas could not start Python: ${error.message}`);
@@ -182,14 +183,4 @@ async function pollStatus() {
 export function deactivate() {
     if (startupTimeout) clearTimeout(startupTimeout);
     if (pollInterval) clearInterval(pollInterval);
-    if (backendProcess && !backendProcess.killed) {
-        if (process.platform === 'win32' && backendProcess.pid) {
-            const cleanup = spawn('taskkill', ['/pid', String(backendProcess.pid), '/T', '/F'], {
-                windowsHide: true,
-            });
-            cleanup.on('error', (error) =>
-                console.error(`[LocalCode Atlas] Backend cleanup failed: ${error.message}`),
-            );
-        } else backendProcess.kill('SIGINT');
-    }
 }

@@ -73,17 +73,17 @@ async def lifespan(app: FastAPI):
     db = get_db()
 
     print("\n" + "=" * 60)
-    print("🚀 LocalCode Atlas Backend Engine Starting...")
-    print(f"📁 Local index path: {Settings.VECTORAI_DB_PATH}")
-    print(f"📦 Total Chunks in DB: {db.count()}")
+    print("LocalCode Atlas Backend Engine Starting...")
+    print(f"Local index path: {Settings.VECTORAI_DB_PATH}")
+    print(f"Total Chunks in DB: {db.count()}")
 
     import urllib.request
 
     try:
         urllib.request.urlopen(f"{Settings.OLLAMA_HOST}/api/tags", timeout=2)
-        print("🟢 Ollama Status: ONLINE")
+        print("Ollama Status: ONLINE")
     except Exception as e:
-        print(f"🔴 Ollama Status: OFFLINE ({e})")
+        print(f"Ollama Status: OFFLINE ({e})")
 
     last_repo = get_last_repo()
     if last_repo:
@@ -148,62 +148,66 @@ def indexer_worker(
         if exclude_patterns is not None:
             get_db(repo_path).update_state(exclude_patterns=exclude_patterns)
         indexer = Indexer(repo_path)
-        previous_model = indexer.db.get_state().get("embed_model")
-        if previous_model and previous_model != Settings.EMBED_MODEL:
-            indexer.db.clear()
-        # Record ownership before writing so partial indexes never belong to the old repo.
-        save_last_repo(repo_path)
-        indexer.remove_deleted_files()
+        with indexer.update_lock:
+            indexers[repo_path] = indexer
+            indexer.start_watchdog()
+            previous_model = indexer.db.get_state().get("embed_model")
+            if previous_model and previous_model != Settings.EMBED_MODEL:
+                indexer.db.clear()
+            # Record ownership before writing so partial indexes never belong to the old repo.
+            save_last_repo(repo_path)
+            indexer.remove_deleted_files()
 
-        files = list(indexer.walk_repo())
-        total_files = len(files)
-        failed_files = 0
-        skipped_files = 0
-        start_time = time.time()
+            files = list(indexer.walk_repo())
+            total_files = len(files)
+            failed_files = 0
+            skipped_files = 0
+            start_time = time.time()
 
-        for file_index, file_path in enumerate(files, 1):
-            try:
-                rel = os.path.relpath(file_path, repo_path)
-                chunks = chunk_file(file_path, repo_path)
-                chunk_count = len(chunks)
+            for file_index, file_path in enumerate(files, 1):
+                try:
+                    rel = os.path.relpath(file_path, repo_path)
+                    chunks = chunk_file(file_path, repo_path)
+                    chunk_count = len(chunks)
 
-                send(
-                    {
-                        "type": "progress",
-                        "file": rel,
-                        "chunks": chunk_count,
-                        "total_files": total_files,
-                        "processed_files": file_index,
-                    }
-                )
+                    send(
+                        {
+                            "type": "progress",
+                            "file": rel,
+                            "chunks": chunk_count,
+                            "total_files": total_files,
+                            "processed_files": file_index,
+                        }
+                    )
 
-                if chunks:
-                    embedded = indexer.embed_and_store_sync(chunks, force=force)
-                    if embedded == 0:
-                        skipped_files += 1
-                else:
-                    indexer.db.delete_by_filepath(rel)
-            except Exception as err:
-                failed_files += 1
-                send({"type": "error", "message": str(err), "file": str(file_path)})
+                    if chunks:
+                        embedded = indexer.embed_and_store_sync(chunks, force=force)
+                        if embedded == 0:
+                            skipped_files += 1
+                    else:
+                        indexer.db.delete_by_filepath(rel)
+                except Exception as err:
+                    failed_files += 1
+                    send({"type": "error", "message": str(err), "file": str(file_path)})
 
-        duration = int((time.time() - start_time) * 1000)
-        indexers[repo_path] = indexer
-        indexer.start_watchdog()
-        indexer.db.update_state(last_indexed=datetime.now().astimezone().isoformat())
-        send(
-            {
-                "type": "complete",
-                "total_chunks": indexer.db.count(),
-                "failed_files": failed_files,
-                "watching": indexer.observer is not None
-                and indexer.observer.is_alive(),
-                "duration_ms": duration,
-                "skipped": skipped_files,
-            }
-        )
+            duration = int((time.time() - start_time) * 1000)
+            indexers[repo_path] = indexer
+            indexer.db.update_state(
+                last_indexed=datetime.now().astimezone().isoformat()
+            )
+            send(
+                {
+                    "type": "complete",
+                    "total_chunks": indexer.db.count(),
+                    "failed_files": failed_files,
+                    "watching": indexer.observer is not None
+                    and indexer.observer.is_alive(),
+                    "duration_ms": duration,
+                    "skipped": skipped_files,
+                }
+            )
 
-        save_last_repo(repo_path)
+            save_last_repo(repo_path)
 
     except Exception as e:
         send({"type": "error", "message": str(e), "file": "system"})

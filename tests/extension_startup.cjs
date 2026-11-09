@@ -10,6 +10,10 @@ async function checkStartup() {
     const child = new EventEmitter();
     child.pid = 1234;
     child.kill = () => {};
+    let unreferenced = false;
+    child.unref = () => {
+        unreferenced = true;
+    };
     const vscode = {
         workspace: { workspaceFolders: [{ uri: { fsPath: root } }] },
         window: {
@@ -60,13 +64,13 @@ async function checkStartup() {
     );
     assert.equal(spawned.options.cwd, root);
     assert.equal(spawned.options.windowsHide, true);
+    assert.equal(spawned.options.detached, true);
+    assert.equal(spawned.options.stdio, 'ignore');
+    assert.equal(unreferenced, true);
     assert.ok(child.listenerCount('error'), 'Spawn failures must be handled');
     child.emit('error', new Error('Python unavailable'));
     extension.exports.deactivate();
-    if (process.platform === 'win32') {
-        assert.equal(spawned.python, 'taskkill');
-        assert.ok(spawned.args.includes('/T'), 'Stop the Python process tree');
-    }
+    assert.notEqual(spawned.python, 'taskkill', 'Keep the shared backend alive');
     console.log('Extension startup check passed');
 }
 checkStartup().catch((error) => {

@@ -25,6 +25,15 @@ try {
         temp,
     ]);
     const installed = path.join(temp, 'extension');
+    run('powershell', [
+        '-NoProfile',
+        '-ExecutionPolicy',
+        'Bypass',
+        '-File',
+        path.join(root, 'tests/setup_package.ps1'),
+        '-SetupPath',
+        path.join(installed, 'setup.ps1'),
+    ]);
     for (const file of [
         'backend/api.py',
         'package.json',
