@@ -9,7 +9,7 @@ const http = require('node:http');
 
 async function checkSearch() {
     const root = process.env.CODELENS_TEST_ROOT || path.resolve(__dirname, '..');
-    const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'codelens-integration-'));
+    const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'localcode-atlas-integration-'));
     const repo = path.join(temp, 'repo');
     fs.mkdirSync(repo);
     const source = path.join(repo, 'parser.py');
@@ -222,6 +222,7 @@ async function checkSearch() {
             await closed;
         }
         if (fakeOllama) await new Promise((resolve) => fakeOllama.close(resolve));
+        fs.rmSync(temp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
     }
 }
 

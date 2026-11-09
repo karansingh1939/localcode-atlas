@@ -35,6 +35,6 @@ exports.run = async () => {
     );
     assert.equal(vscode.window.activeTextEditor.selection.active.line, result.line_start - 1);
     console.log(
-        'CODELENS_HOST_SMOKE_PASSED: activation, sidebar command, real search, jump to file',
+        'LOCALCODE_ATLAS_HOST_SMOKE_PASSED: activation, sidebar command, real search, jump to file',
     );
 };

@@ -5,7 +5,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
-const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'codelens-install-'));
+const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'localcode-atlas-install-'));
 const python = path.join(
     root,
     '.venv',
@@ -66,8 +66,10 @@ try {
         cwd: installed,
         env: { ...process.env, CODELENS_TEST_ROOT: installed, CODELENS_FAKE_OLLAMA: '1' },
     });
-    console.log(`Fresh VSIX installation passed in ${installed}`);
+    console.log('Fresh VSIX installation passed');
+    fs.rmSync(temp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 } catch (error) {
     console.error(error);
+    console.error(`Installation files kept for inspection: ${temp}`);
     process.exitCode = 1;
 }

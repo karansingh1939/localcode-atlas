@@ -36,3 +36,10 @@ dev = ["pytest>=8", "ruff>=0.15"]
 
 [tool.setuptools.packages.find]
 include = ["backend*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    # Third-party notice from fastapi.testclient; not actionable in this project.
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
