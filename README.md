@@ -101,7 +101,7 @@ atomic if any embedding batch fails.
 
 Search combines semantic similarity with symbol, filename and code keywords;
 exact symbol and filename matches receive a ranking boost. Scores represent hybrid
-relevance on a 0Ã¢â‚¬â€œ1 scale.
+relevance on a 0–1 scale.
 
 ## Current limits and useful improvements
 
@@ -124,7 +124,8 @@ Subsequent work adds workspace isolation, ignore rules, batch embeddings,
 incremental updates, hybrid ranking, and installation/CI checks.
 
 The extension retains the `codelens.*` command and settings identifiers,
-`.codelensignore`, `VECTORAI_DB_PATH`, `.vectorai_db`, and `codelens.db` for
+`.codelensignore`, `VECTORAI_DB_PATH`, `.vectorai_db`, `codelens.db`, the
+`vectorai` field of `/health`, and the `CODELENS_*` test environment variables for
 compatibility. These internal names do not indicate a Git remote connection.
 The local extension packaging publisher ID remains `karansingh1939`; it is
 separate from the GitHub owner `karansingh-1939`.

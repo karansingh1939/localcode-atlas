@@ -1,5 +1,7 @@
 # Improvement scope
 
+Status: implemented in 0.2.0. Kept as the record of the acceptance criteria.
+
 1. Preserve independent workspace indexes and restore their watchers after restart.
    Migrate the legacy single-repository index without deleting its database.
 2. Apply root/nested `.gitignore`, `.codelensignore`, and VS Code exclude patterns
