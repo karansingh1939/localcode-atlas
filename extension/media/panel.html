@@ -6,7 +6,7 @@
         <title>LocalCode Atlas Dashboard</title>
         <style>
             :root {
-                /* Semantic Variables Mapping Native Code Lens UI */
+                /* Score bar colours */
                 --bar-green: #3fb950;
                 --bar-amber: #d29922;
                 --bar-red: #f85149;
@@ -388,7 +388,7 @@
         </style>
     </head>
     <body>
-        <!-- Application Action Header -->
+        <!-- Header -->
         <div class="header">
             <div class="header-left">
                 <span class="status-dot tooltip" id="health-dot" title="Health Indicator"></span>
@@ -398,7 +398,7 @@
             <button class="reindex-btn" id="btn-reindex">[⟳ Re-index]</button>
         </div>
 
-        <!-- Active Vector Embed Lookup Prompt -->
+        <!-- Search -->
         <div class="search-container">
             <div class="search-input-wrapper">
                 <input
@@ -418,39 +418,40 @@
             </div>
         </div>
 
-        <!-- Dynamic Context Render Wrappers -->
+        <!-- Result summary and optional explanation -->
         <div id="metadata-header" class="metadata-row hidden">
             <span id="meta-results-txt">0 results · 0ms</span>
         </div>
 
         <div id="explain-container"></div>
 
-        <!-- Active Background Processing Queue Screen -->
+        <!-- Indexing progress -->
         <div id="progress-container" class="progress-view hidden">
             <div class="progress-filename" id="prog-file">...</div>
             <div class="progress-bar-container">
                 <div class="progress-bar-fill" id="prog-bar"></div>
             </div>
             <div style="font-size: 11px; color: var(--vscode-descriptionForeground)" id="prog-text">
-                Indexed <span id="prog-pct">0</span> / 100% · <span id="prog-chunks">0</span> chunks
-                found
+                Indexed <span id="prog-pct">0</span>% · <span id="prog-chunks">0</span> chunks in
+                this file
             </div>
         </div>
 
-        <!-- Live ANN Evaluation Node Elements Return -->
-        <ul id="results-container">
-            <div class="chips" id="empty-state">
-                <div class="chip" data-query="where does auth validation happen?">
-                    where does auth validation happen?
-                </div>
-                <div class="chip" data-query="show all database write operations">
-                    show all database write operations
-                </div>
-                <div class="chip" data-query="which functions handle error logging?">
-                    which functions handle error logging?
-                </div>
+        <!-- Example queries, shown until results replace them -->
+        <div class="chips" id="empty-state">
+            <div class="chip" data-query="where does auth validation happen?">
+                where does auth validation happen?
             </div>
-        </ul>
+            <div class="chip" data-query="show all database write operations">
+                show all database write operations
+            </div>
+            <div class="chip" data-query="which functions handle error logging?">
+                which functions handle error logging?
+            </div>
+        </div>
+
+        <!-- Search results -->
+        <ul id="results-container"></ul>
 
         <script>
             const vscode = acquireVsCodeApi();
@@ -478,7 +479,7 @@
             let navigationIndex = -1;
             let resultElements = [];
 
-            // Inline lightweight custom minified stub executing high performance DOM render constraints matching user spec without fetching via Cloud CDN
+            // Minimal offline syntax highlighter; escapes all code before adding spans.
             const syntaxParser = {
                 highlight: (code) => {
                     const escape = (text) =>
@@ -590,6 +591,7 @@
                 switch (stream.type) {
                     case 'results':
                         uiTokens.progCont.classList.add('hidden');
+                        uiTokens.emptyState.classList.add('hidden');
                         uiTokens.resultsCont.innerHTML = '';
                         uiTokens.metaRow.classList.remove('hidden');
                         uiTokens.metaTxt.innerText = `${stream.data.length} results · ${stream.query_ms}ms`;
@@ -668,19 +670,22 @@
                         uiTokens.progFile.innerText = stream.file;
                         uiTokens.progBar.style.width = `${Math.min(100, stream.pct)}%`;
                         uiTokens.progPct.innerText = Math.round(stream.pct);
-                        uiTokens.chunkBadge.innerText = stream.message;
+                        uiTokens.progChunks.innerText = stream.chunks ?? 0;
                         break;
 
                     case 'status':
                         uiTokens.progCont.classList.add('hidden');
                         uiTokens.chunkBadge.innerText = `${stream.chunks} chunks`;
                         uiTokens.healthDot.className = 'status-dot';
-                        document.getElementById('empty-state')?.classList.remove('hidden');
+                        if (!uiTokens.resultsCont.hasChildNodes()) {
+                            uiTokens.emptyState.classList.remove('hidden');
+                        }
                         break;
 
                     case 'error':
                         uiTokens.progCont.classList.add('hidden');
                         uiTokens.healthDot.className = 'status-dot red';
+                        uiTokens.emptyState.classList.add('hidden');
                         uiTokens.resultsCont.textContent = stream.message;
                         break;
                 }

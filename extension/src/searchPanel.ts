@@ -5,6 +5,8 @@ import * as http from 'http';
 import { randomBytes } from 'crypto';
 import { StringDecoder } from 'string_decoder';
 
+const API_URL = 'http://127.0.0.1:8000';
+
 export class SearchPanelProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
     private queryId = 0;
@@ -24,7 +26,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this.getHtmlForWebview();
 
-        // 1. Process Messages dispatched from panel.html WebView runtime
+        // Messages sent by panel.html
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data?.type) {
                 case 'query':
@@ -41,7 +43,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
             }
         });
 
-        // 2. Fetch and push initial status to the webview immediately
+        // Show the current index status as soon as the view opens.
         this.pushStatus();
     }
 
@@ -50,7 +52,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
             try {
                 const repo = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
                 const response = await fetch(
-                    `http://127.0.0.1:8000/status${repo ? '?repo_path=' + encodeURIComponent(repo) : ''}`,
+                    `${API_URL}/status${repo ? '?repo_path=' + encodeURIComponent(repo) : ''}`,
                     {
                         signal: AbortSignal.timeout(2000),
                     },
@@ -79,7 +81,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
     private async handleQuery(text: string, explain: boolean) {
         const queryId = ++this.queryId;
         try {
-            const response = await fetch('http://127.0.0.1:8000/query', {
+            const response = await fetch(`${API_URL}/query`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -91,7 +93,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
                 signal: AbortSignal.timeout(30000),
             });
             if (!response.ok) {
-                const error = (await response.json()) as { detail?: string };
+                const error = (await response.json().catch(() => ({}))) as { detail?: string };
                 throw new Error(error.detail || `Search failed: HTTP ${response.status}`);
             }
             const result = (await response.json()) as {
@@ -139,7 +141,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
         const reportError = (message: string) =>
             this._view?.webview.postMessage({ type: 'error', message });
         const req = http.request(
-            'http://127.0.0.1:8000/index',
+            `${API_URL}/index`,
             {
                 method: 'POST',
                 headers: {
@@ -180,10 +182,10 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
                             try {
                                 const parsed = JSON.parse(ev.substring(6));
                                 if (parsed.type === 'progress') {
-                                    // Maps exactly onto the Webview message protocol specified
                                     this._view?.webview.postMessage({
                                         type: 'indexProgress',
                                         file: parsed.file,
+                                        chunks: parsed.chunks,
                                         pct:
                                             ((parsed.processed_files ?? parsed.chunks) /
                                                 Math.max(1, parsed.total_files)) *
@@ -207,8 +209,8 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
                                         message: parsed.message,
                                     });
                                 }
-                            } catch (e) {
-                                // Ignored partial streaming fragments
+                            } catch {
+                                // Ignore malformed event payloads.
                             }
                         }
                     }
@@ -232,7 +234,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
     }
 
     private async handleJumpTo(file: string, line: number) {
-        const workspace = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+        const workspace = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
         if (!workspace) return;
 
         const absolutePath = path.resolve(workspace, file);
@@ -249,7 +251,7 @@ export class SearchPanelProvider implements vscode.WebviewViewProvider {
             const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(absolutePath));
             const editor = await vscode.window.showTextDocument(doc);
 
-            // Adjust to VS Code internal 0-indexed engine structure safely mapping bounds
+            // Backend lines are 1-based; VS Code positions are 0-based.
             const vsLine = Math.min(doc.lineCount - 1, Math.max(0, line - 1));
             const range = new vscode.Range(vsLine, 0, vsLine, 0);
 

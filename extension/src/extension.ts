@@ -12,7 +12,7 @@ let startupTimeout: NodeJS.Timeout;
 const PORT = 8000;
 const API_URL = `http://127.0.0.1:${PORT}`;
 
-/** Find best available Python (checks python, python3, and common paths) */
+/** Find a Python interpreter that can import the backend (project .venv first). */
 function detectPython(root: string): string {
     const candidates = [
         path.join(
@@ -47,13 +47,13 @@ function detectPython(root: string): string {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
-    // 2. Register Webview sidebar
+    // Sidebar webview
     const provider = new SearchPanelProvider(context.extensionUri);
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider('codelens.sidebar', provider),
     );
 
-    // 3. Mount Status Bar precisely formatted
+    // Status bar
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
     statusBarItem.text = '$(sync~spin) LocalCode Atlas starting...';
     statusBarItem.show();
@@ -64,7 +64,7 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.window.showErrorMessage(error.message);
     });
 
-    // 4. Command Registrations
+    // Commands
     context.subscriptions.push(
         vscode.commands.registerCommand('codelens.search', () => {
             vscode.commands.executeCommand('codelens.sidebar.focus');
@@ -83,7 +83,7 @@ export async function activate(context: vscode.ExtensionContext) {
         }),
     );
 
-    // 5. Pre-flight initialization & UI checks
+    // Warn once if Ollama is unavailable, then keep the status bar current.
     startupTimeout = setTimeout(async () => {
         try {
             const response = await fetch(`${API_URL}/health`, {
@@ -94,19 +94,19 @@ export async function activate(context: vscode.ExtensionContext) {
             if (health.ollama === false) {
                 const actionBtn = 'Install Ollama';
                 const installRes = await vscode.window.showWarningMessage(
-                    'LocalCode Atlas Engine Offline: Ollama was not found or is not running on your system. This is strictly required for local vector generation.',
+                    'LocalCode Atlas: Ollama was not found or is not running. It is required to index and search code.',
                     actionBtn,
                 );
                 if (installRes === actionBtn) {
-                    vscode.env.openExternal(vscode.Uri.parse('https://ollama.ai'));
+                    vscode.env.openExternal(vscode.Uri.parse('https://ollama.com/download'));
                 }
             }
-        } catch (e) {
-            console.error('LocalCode Atlas Backend Health Check Missed');
+        } catch {
+            console.error('[LocalCode Atlas] Backend health check failed.');
         }
 
         startPolling();
-    }, 4500); // giving uvicorn maximum startup leeway
+    }, 4500); // Give uvicorn time to start.
 }
 
 async function startBackendServer(context: vscode.ExtensionContext) {
@@ -175,8 +175,8 @@ async function pollStatus() {
         const data = (await res.json()) as { indexed_chunks: number };
         const chunks = data.indexed_chunks || 0;
         statusBarItem.text = `$(database) LocalCode Atlas: ${chunks} chunks`;
-    } catch (e) {
-        statusBarItem.text = `$(database) LocalCode Atlas: Offline`;
+    } catch {
+        statusBarItem.text = '$(database) LocalCode Atlas: Offline';
     }
 }
 
