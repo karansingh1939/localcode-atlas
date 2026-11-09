@@ -8,7 +8,7 @@ import json
 import threading
 import re
 from pathlib import Path
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 import numpy as np
 from typing import List, Dict, Any, Optional
 
@@ -190,7 +190,7 @@ class LocalVectorDB:
             conn.commit()
 
     # ------------------------------------------------------------------
-    # Read path — Cosine ANN
+    # Read path — exact cosine scan
     # ------------------------------------------------------------------
 
     def search(
@@ -312,7 +312,7 @@ class LocalVectorDB:
             return conn.execute("SELECT COUNT(*) FROM chunks").fetchone()[0]
 
 
-# Singleton — one DB connection pool per process
+# Process-wide cache: one LocalVectorDB per database directory.
 _db_instance: Optional[LocalVectorDB] = None
 _workspace_dbs: dict[str, LocalVectorDB] = {}
 _db_lock = threading.Lock()
@@ -349,9 +349,11 @@ def get_db(repo_path: str | None = None) -> LocalVectorDB:
                     and (base / "codelens.db").exists()
                 ):
                     directory.mkdir(parents=True, exist_ok=True)
+                    # sqlite3's context manager only commits; close handles explicitly
+                    # so Windows does not keep the database files locked.
                     with (
-                        sqlite3.connect(base / "codelens.db") as source,
-                        sqlite3.connect(db_file) as target,
+                        closing(sqlite3.connect(base / "codelens.db")) as source,
+                        closing(sqlite3.connect(db_file)) as target,
                     ):
                         source.backup(target)
                     migrated = LocalVectorDB(str(directory))

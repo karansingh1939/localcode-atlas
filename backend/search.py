@@ -64,7 +64,7 @@ async def _query_with_client(
     results = []
     for r in raw_results:
         score = r.get("score", 0.0)
-        # Cosine scores are already in[-1, 1]; clamp to [0, 1]
+        # Cosine scores are in [-1, 1]; hybrid scores are already in [0, 1].
         r["score"] = max(0.0, min(1.0, score))
         results.append(r)
 
@@ -102,10 +102,3 @@ async def _query_with_client(
             )
 
     return {"results": results, "explain_text": explanation}
-
-
-def run_query_sync(
-    query: str, top_k: int = 10, explain: bool = False
-) -> Dict[str, Any]:
-    """Synchronous wrapper for CLI usage."""
-    return asyncio.run(run_query(query, top_k, explain))

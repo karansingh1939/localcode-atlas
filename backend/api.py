@@ -6,6 +6,7 @@ import threading
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime
+from pathlib import Path
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -18,12 +19,8 @@ from backend.search import run_query
 
 logger = logging.getLogger(__name__)
 
-SIDECAR_FILE = os.path.join(
-    os.path.dirname(Settings.VECTORAI_DB_PATH)
-    if os.path.dirname(Settings.VECTORAI_DB_PATH)
-    else ".",
-    "last_repo.json",
-)
+# Must match the legacy-migration lookup in vector_store.get_db().
+SIDECAR_FILE = str(Path(Settings.VECTORAI_DB_PATH).resolve().parent / "last_repo.json")
 indexers: dict[str, Indexer] = {}
 indexing_repo: str | None = None
 index_lock = threading.Lock()
@@ -109,11 +106,10 @@ app = FastAPI(title="LocalCode Atlas Offline Core", lifespan=lifespan)
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    status_code = 500
-    if isinstance(exc, HTTPException):
-        status_code = exc.status_code
+    # HTTPException is handled by FastAPI itself; this covers unexpected errors.
+    logger.exception("Unhandled error for %s %s", request.method, request.url.path)
     return JSONResponse(
-        status_code=status_code,
+        status_code=500,
         content={"error": type(exc).__name__, "detail": str(exc)},
     )
 
@@ -353,4 +349,4 @@ def api_health():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("backend.api:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("backend.api:app", host="127.0.0.1", port=8000)
