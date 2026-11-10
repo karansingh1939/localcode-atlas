@@ -50,7 +50,10 @@ try {
     assert.equal(manifest.version, '0.2.0');
     assert.equal(manifest.license, 'MIT');
     assert.equal(manifest.repository.url, 'https://github.com/karansingh-1939/localcode-atlas.git');
-    assert.match(fs.readFileSync(path.join(installed, 'LICENSE.txt'), 'utf8'), /Nikhil Mourya/);
+    assert.match(
+        fs.readFileSync(path.join(installed, 'LICENSE.txt'), 'utf8'),
+        /Copyright \(c\) 2026 Karan Singh/,
+    );
     run(python, ['-m', 'venv', path.join(installed, '.venv')]);
     const freshPython = path.join(
         installed,

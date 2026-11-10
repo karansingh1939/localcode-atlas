@@ -117,11 +117,10 @@ relevance on a 0–1 scale.
 
 ## Identity and compatibility
 
-LocalCode Atlas is maintained by Karan Singh. This private project builds on
-[CodeLens by Nikhil Mourya](https://github.com/TryingtobeingNikhil/CodeLens).
-The original MIT copyright and license notice are preserved in `LICENSE`.
-Subsequent work adds workspace isolation, ignore rules, batch embeddings,
-incremental updates, hybrid ranking, and installation/CI checks.
+LocalCode Atlas is a private project created and maintained by Karan Singh,
+released under the MIT license in `LICENSE`. It includes workspace isolation,
+ignore rules, batch embeddings, incremental updates, hybrid ranking, and
+installation/CI checks.
 
 The extension retains the `codelens.*` command and settings identifiers,
 `.codelensignore`, `VECTORAI_DB_PATH`, `.vectorai_db`, `codelens.db`, the
