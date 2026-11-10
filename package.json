@@ -7,7 +7,7 @@
     "publisher": "karansingh1939",
     "repository": {
         "type": "git",
-        "url": "https://github.com/karansingh-1939/localcode-atlas.git"
+        "url": "https://github.com/karansingh1939/localcode-atlas.git"
     },
     "engines": {
         "vscode": "^1.86.0"

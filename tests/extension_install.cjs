@@ -49,7 +49,7 @@ try {
     assert.equal(manifest.name, 'localcode-atlas');
     assert.equal(manifest.version, '0.2.0');
     assert.equal(manifest.license, 'MIT');
-    assert.equal(manifest.repository.url, 'https://github.com/karansingh-1939/localcode-atlas.git');
+    assert.equal(manifest.repository.url, 'https://github.com/karansingh1939/localcode-atlas.git');
     assert.match(
         fs.readFileSync(path.join(installed, 'LICENSE.txt'), 'utf8'),
         /Copyright \(c\) 2026 Karan Singh/,

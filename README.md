@@ -126,8 +126,7 @@ The extension retains the `codelens.*` command and settings identifiers,
 `.codelensignore`, `VECTORAI_DB_PATH`, `.vectorai_db`, `codelens.db`, the
 `vectorai` field of `/health`, and the `CODELENS_*` test environment variables for
 compatibility. These internal names do not indicate a Git remote connection.
-The local extension packaging publisher ID remains `karansingh1939`; it is
-separate from the GitHub owner `karansingh-1939`.
+The extension publisher ID and the GitHub owner are both `karansingh1939`.
 
 This checkout has fresh history. The original checkout and its indexes are
 retained separately; this folder creates its own indexes after setup.
